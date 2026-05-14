@@ -155,7 +155,18 @@ const AnalyticsView = () => {
     );
   }
 
-  const summary = data?.summary ?? {};
+  const summary = {
+    total_posts:       0,
+    published_posts:   0,
+    total_likes:       0,
+    total_comments:    0,
+    total_reposts:     0,
+    total_impressions: 0,
+    total_engagement:  0,
+    avg_engagement:    0,
+    avg_impressions:   0,
+    ...(data?.summary ?? {}),
+  };
   const timeline = Array.isArray(data?.timeline) ? data.timeline : [];
 
   // ─────────────────────────────────────────────────────────────────────────
