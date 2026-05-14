@@ -116,7 +116,7 @@ const AnalyticsView = () => {
 
   // ── Filtrage des posts ────────────────────────────────────────────────────
 
-  const filteredPosts = !data ? [] : data.posts.filter((p) => {
+  const filteredPosts = (!data || !Array.isArray(data.posts)) ? [] : data.posts.filter((p) => {
     if (filter === "week")  return isWithin(p.estimated_date, 7);
     if (filter === "month") return isWithin(p.estimated_date, 30);
     return true;
