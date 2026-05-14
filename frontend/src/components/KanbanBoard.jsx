@@ -177,7 +177,7 @@ const KanbanBoard = () => {
 
       {/* Tableau Kanban */}
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-4 p-4 sm:p-6 overflow-x-auto min-h-[calc(100vh-60px-65px)] items-start snap-x snap-mandatory sm:snap-none pb-6">
+        <div className="flex gap-4 p-4 sm:p-6 overflow-x-auto min-h-[calc(100vh-60px-65px)] items-start snap-x snap-mandatory sm:snap-none pb-6 sm:justify-center">
           {COLUMNS.map((col) => (
             <KanbanColumn
               key={col.id}
