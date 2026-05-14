@@ -31,7 +31,7 @@ const CalendarView = () => {
 
   useEffect(() => {
     getPosts()
-      .then(setPosts)
+      .then((data) => setPosts(Array.isArray(data) ? data : []))
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);

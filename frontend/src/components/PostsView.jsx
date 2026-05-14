@@ -184,7 +184,7 @@ const PostsView = () => {
   const fetchPosts = useCallback(async () => {
     try {
       const data = await getPosts();
-      setPosts(data);
+      setPosts(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error(e);
     } finally {

@@ -68,7 +68,7 @@ const AnalyticsView = () => {
         axios.get(`${API}/posts`),
       ]);
       setData(analyticsRes.data);
-      setAllPosts(postsRes.data);
+      setAllPosts(Array.isArray(postsRes.data) ? postsRes.data : []);
     } catch (e) {
       setError("Impossible de charger les analytics. Backend en ligne ?");
     } finally {
