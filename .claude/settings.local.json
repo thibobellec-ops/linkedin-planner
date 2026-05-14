@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(pip install *)",
+      "Bash(curl -s http://localhost:8000/health)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:8000/health\" -Method Get)",
+      "PowerShell(try { $r = Invoke-RestMethod -Uri \"http://localhost:8000/health\" -Method Get; $r | ConvertTo-Json } catch { \"ERREUR: $_\" })"
+    ]
+  }
+}
