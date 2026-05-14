@@ -116,7 +116,8 @@ const AnalyticsView = () => {
 
   // ── Filtrage des posts ────────────────────────────────────────────────────
 
-  const filteredPosts = (!data || !Array.isArray(data.posts)) ? [] : data.posts.filter((p) => {
+  const rawPosts = [].concat(data?.posts || []);
+  const filteredPosts = rawPosts.filter((p) => {
     if (filter === "week")  return isWithin(p.estimated_date, 7);
     if (filter === "month") return isWithin(p.estimated_date, 30);
     return true;
@@ -167,7 +168,7 @@ const AnalyticsView = () => {
     avg_impressions:   0,
     ...(data?.summary ?? {}),
   };
-  const timeline = Array.isArray(data?.timeline) ? data.timeline : [];
+  const timeline = [].concat(data?.timeline || []);
 
   // ─────────────────────────────────────────────────────────────────────────
 
