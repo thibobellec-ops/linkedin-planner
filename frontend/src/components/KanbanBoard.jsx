@@ -33,7 +33,7 @@ const KanbanBoard = () => {
   const fetchPosts = async () => {
     try {
       const data = await getPosts();
-      setPosts(data);
+      setPosts(Array.isArray(data) ? data : []);
       setApiError(false);
     } catch (err) {
       console.error("Erreur API :", err);
@@ -99,7 +99,7 @@ const KanbanBoard = () => {
 
   // Filtrer les posts par statut pour une colonne
   const getPostsByStatus = (status) =>
-    posts.filter((p) => p.status === status);
+    (Array.isArray(posts) ? posts : []).filter((p) => p.status === status);
 
   // ─── États de chargement / erreur ──────────────────────────────────────────
 
