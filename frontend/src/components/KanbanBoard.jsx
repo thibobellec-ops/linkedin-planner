@@ -4,6 +4,16 @@ import KanbanColumn from "./KanbanColumn";
 import PostModal from "./PostModal";
 import { getPosts, updatePost } from "../api/posts";
 
+// Cross-realm safe array conversion (MetaMask SES locks down Array.isArray)
+const toSafeArray = (v) => {
+  if (!v) return [];
+  const out = [];
+  const len = v.length;
+  if (typeof len !== "number") return [];
+  for (let i = 0; i < len; i++) out.push(v[i]);
+  return out;
+};
+
 // Définition des colonnes du pipeline
 const COLUMNS = [
   { id: "idea",      label: "Idée",      stagger: 1 },
@@ -33,7 +43,7 @@ const KanbanBoard = () => {
   const fetchPosts = async () => {
     try {
       const data = await getPosts();
-      setPosts(Array.isArray(data) ? data : []);
+      setPosts(toSafeArray(data));
       setApiError(false);
     } catch (err) {
       console.error("Erreur API :", err);
@@ -99,7 +109,7 @@ const KanbanBoard = () => {
 
   // Filtrer les posts par statut pour une colonne
   const getPostsByStatus = (status) =>
-    (Array.isArray(posts) ? posts : []).filter((p) => p.status === status);
+    posts.filter((p) => p.status === status);
 
   // ─── États de chargement / erreur ──────────────────────────────────────────
 

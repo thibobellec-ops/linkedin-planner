@@ -4,6 +4,16 @@ import CalendarWeekView, { formatDateKey, getWeekDays } from "./CalendarWeekView
 import CalendarMonthView from "./CalendarMonthView";
 import PostModal from "./PostModal";
 
+// Cross-realm safe array conversion (MetaMask SES locks down Array.isArray)
+const toSafeArray = (v) => {
+  if (!v) return [];
+  const out = [];
+  const len = v.length;
+  if (typeof len !== "number") return [];
+  for (let i = 0; i < len; i++) out.push(v[i]);
+  return out;
+};
+
 // ─── Navigation title ────────────────────────────────────────────────────────
 
 const getNavTitle = (view, date) => {
@@ -31,7 +41,7 @@ const CalendarView = () => {
 
   useEffect(() => {
     getPosts()
-      .then((data) => setPosts(Array.isArray(data) ? data : []))
+      .then((data) => setPosts(toSafeArray(data)))
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);

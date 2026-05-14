@@ -2,6 +2,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import { getPosts } from "../api/posts";
 import PostModal, { FUNNEL_STYLES, FunnelBadge } from "./PostModal";
 
+// Cross-realm safe array conversion (MetaMask SES locks down Array.isArray)
+const toSafeArray = (v) => {
+  if (!v) return [];
+  const out = [];
+  const len = v.length;
+  if (typeof len !== "number") return [];
+  for (let i = 0; i < len; i++) out.push(v[i]);
+  return out;
+};
+
 // ─── Constantes de style ──────────────────────────────────────────────────────
 
 const STATUS_CONFIG = {
@@ -184,7 +194,7 @@ const PostsView = () => {
   const fetchPosts = useCallback(async () => {
     try {
       const data = await getPosts();
-      setPosts(Array.isArray(data) ? data : []);
+      setPosts(toSafeArray(data));
     } catch (e) {
       console.error(e);
     } finally {

@@ -10,6 +10,18 @@ import PostModal, { FunnelBadge } from "./PostModal";
 const API = process.env.REACT_APP_API_URL
   || (process.env.NODE_ENV === "production" ? "/_/backend" : "http://localhost:8000");
 
+// Converts any array-like value to a plain native array without relying on
+// Array.isArray / Array.prototype.concat / Symbol.isConcatSpreadable — all of
+// which MetaMask's SES lockdown can interfere with in cross-realm situations.
+const toSafeArray = (v) => {
+  if (!v) return [];
+  const out = [];
+  const len = v.length;
+  if (typeof len !== "number") return [];
+  for (let i = 0; i < len; i++) out.push(v[i]);
+  return out;
+};
+
 // ─── Filtre temporel ─────────────────────────────────────────────────────────
 
 const FILTERS = [
@@ -68,7 +80,7 @@ const AnalyticsView = () => {
         axios.get(`${API}/posts`),
       ]);
       setData(analyticsRes.data);
-      setAllPosts(Array.isArray(postsRes.data) ? postsRes.data : []);
+      setAllPosts(toSafeArray(postsRes.data));
     } catch (e) {
       setError("Impossible de charger les analytics. Backend en ligne ?");
     } finally {
@@ -116,7 +128,7 @@ const AnalyticsView = () => {
 
   // ── Filtrage des posts ────────────────────────────────────────────────────
 
-  const rawPosts = [].concat(data?.posts || []);
+  const rawPosts = toSafeArray(data?.posts);
   const filteredPosts = rawPosts.filter((p) => {
     if (filter === "week")  return isWithin(p.estimated_date, 7);
     if (filter === "month") return isWithin(p.estimated_date, 30);
@@ -168,7 +180,7 @@ const AnalyticsView = () => {
     avg_impressions:   0,
     ...(data?.summary ?? {}),
   };
-  const timeline = [].concat(data?.timeline || []);
+  const timeline = toSafeArray(data?.timeline);
 
   // ─────────────────────────────────────────────────────────────────────────
 
