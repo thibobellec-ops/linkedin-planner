@@ -5,7 +5,7 @@ import React from "react";
  */
 const KpiCard = ({ label, value, sub, icon, accent = false }) => (
   <div className={`
-    bg-white border-[1.5px] rounded-xl p-5 flex flex-col gap-1 fade-up
+    bg-white border-[1.5px] rounded-xl p-3 sm:p-5 flex flex-col gap-1 fade-up
     ${accent ? "border-accent/40 bg-blue-50/30" : "border-edge"}
   `}>
     <div className="flex items-start justify-between">
@@ -18,7 +18,7 @@ const KpiCard = ({ label, value, sub, icon, accent = false }) => (
         </span>
       )}
     </div>
-    <p className={`font-fraunces text-3xl font-bold leading-none mt-1 ${accent ? "text-accent" : "text-ink"}`}>
+    <p className={`font-fraunces text-2xl sm:text-3xl font-bold leading-none mt-1 ${accent ? "text-accent" : "text-ink"}`}>
       {value ?? "—"}
     </p>
     {sub && (

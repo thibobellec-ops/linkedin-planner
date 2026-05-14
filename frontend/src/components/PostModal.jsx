@@ -159,16 +159,16 @@ const PostModal = ({ isOpen, onClose, post, defaultStatus = "idea", defaultDate 
             {/* ─── Colonne gauche : métadonnées ────────────────────────────── */}
             <div className="sm:w-64 flex-shrink-0 px-5 sm:px-6 py-4 sm:border-r border-edge flex flex-col gap-4 sm:overflow-y-auto">
 
-              {/* Statut */}
+              {/* Statut — horizontal scrollable sur mobile, vertical sur desktop */}
               <div>
                 <label className="block text-xs font-semibold font-grotesk text-ink-muted uppercase tracking-wide mb-2">Statut</label>
-                <div className="flex flex-col gap-1.5">
+                <div className="flex sm:flex-col gap-1.5 overflow-x-auto sm:overflow-visible pb-1 sm:pb-0 -mx-1 px-1">
                   {STATUS_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
                       type="button"
                       onClick={() => setStatus(opt.value)}
-                      className={`text-left px-3 py-2 rounded-xl text-sm font-medium font-grotesk border-[1.5px] transition-colors ${
+                      className={`flex-shrink-0 text-left px-3 py-2 rounded-xl text-sm font-medium font-grotesk border-[1.5px] transition-colors ${
                         status === opt.value
                           ? "border-accent bg-accent/5 text-accent"
                           : "border-edge text-ink-muted hover:border-stone-300 hover:text-ink"
@@ -191,10 +191,10 @@ const PostModal = ({ isOpen, onClose, post, defaultStatus = "idea", defaultDate 
                 />
               </div>
 
-              {/* Catégorie funnel */}
+              {/* Catégorie funnel — horizontal scrollable sur mobile, vertical sur desktop */}
               <div>
                 <label className="block text-xs font-semibold font-grotesk text-ink-muted uppercase tracking-wide mb-2">Catégorie</label>
-                <div className="flex flex-col gap-1.5">
+                <div className="flex sm:flex-col gap-1.5 overflow-x-auto sm:overflow-visible pb-1 sm:pb-0 -mx-1 px-1">
                   {FUNNEL_OPTIONS.map((opt) => {
                     const style = FUNNEL_STYLES[opt.value];
                     return (
@@ -202,7 +202,7 @@ const PostModal = ({ isOpen, onClose, post, defaultStatus = "idea", defaultDate 
                         key={opt.value}
                         type="button"
                         onClick={() => setFunnelType(opt.value)}
-                        className={`text-left px-3 py-2 rounded-xl text-xs font-semibold font-grotesk border-[1.5px] transition-colors ${
+                        className={`flex-shrink-0 text-left px-3 py-2 rounded-xl text-xs font-semibold font-grotesk border-[1.5px] transition-colors ${
                           funnelType === opt.value
                             ? style ? style.btn : "border-stone-300 bg-stone-100 text-stone-600"
                             : FUNNEL_IDLE

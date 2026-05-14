@@ -109,13 +109,13 @@ const CalendarView = () => {
   return (
     <>
       {/* ── Barre d'outils ─────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-edge bg-white/80 backdrop-blur-sm sticky top-[60px] z-40">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:justify-between px-4 sm:px-6 py-3 border-b border-edge bg-white/80 backdrop-blur-sm sticky top-[60px] z-40">
 
-        {/* Gauche : titre + navigation */}
-        <div className="flex items-center gap-2">
+        {/* Ligne 1 : navigation + titre + bouton (mobile) */}
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           <button
             onClick={() => navigate(-1)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg border-[1.5px] border-edge hover:border-accent hover:text-accent text-ink-muted transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg border-[1.5px] border-edge hover:border-accent hover:text-accent text-ink-muted transition-colors flex-shrink-0"
             aria-label="Précédent"
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -125,14 +125,14 @@ const CalendarView = () => {
 
           <button
             onClick={goToday}
-            className="px-3 py-1.5 text-xs font-medium font-grotesk border-[1.5px] border-edge rounded-lg hover:border-accent hover:text-accent text-ink-light transition-colors"
+            className="px-2.5 py-1.5 text-xs font-medium font-grotesk border-[1.5px] border-edge rounded-lg hover:border-accent hover:text-accent text-ink-light transition-colors flex-shrink-0"
           >
-            Aujourd'hui
+            Auj.
           </button>
 
           <button
             onClick={() => navigate(1)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg border-[1.5px] border-edge hover:border-accent hover:text-accent text-ink-muted transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg border-[1.5px] border-edge hover:border-accent hover:text-accent text-ink-muted transition-colors flex-shrink-0"
             aria-label="Suivant"
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -140,14 +140,25 @@ const CalendarView = () => {
             </svg>
           </button>
 
-          <h1 className="font-fraunces text-lg font-bold text-ink ml-2 capitalize">
+          <h1 className="font-fraunces text-base sm:text-lg font-bold text-ink sm:ml-2 capitalize truncate">
             {getNavTitle(view, currentDate)}
           </h1>
+
+          {/* Bouton nouveau post — visible uniquement sur mobile à droite du titre */}
+          <button
+            onClick={() => handleSlotClick(new Date())}
+            className="sm:hidden ml-auto w-8 h-8 flex items-center justify-center bg-accent hover:bg-accent-dark text-white rounded-xl transition-colors flex-shrink-0"
+            aria-label="Nouveau post"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v12M2 8h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
 
-        {/* Droite : stats + toggle vue */}
-        <div className="flex items-center gap-4">
-          {/* Mini stats */}
+        {/* Ligne 2 (mobile) / Droite (desktop) : stats + toggle + bouton */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          {/* Mini stats — desktop only */}
           <div className="hidden sm:flex items-center gap-3 text-xs font-grotesk text-ink-muted">
             <span>
               <span className="font-semibold text-ink">{thisWeekCount}</span> cette semaine
@@ -178,10 +189,10 @@ const CalendarView = () => {
             ))}
           </div>
 
-          {/* Bouton nouveau post */}
+          {/* Bouton nouveau post — desktop only */}
           <button
             onClick={() => handleSlotClick(new Date())}
-            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-dark text-white rounded-xl text-sm font-semibold font-grotesk transition-colors"
+            className="hidden sm:flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-dark text-white rounded-xl text-sm font-semibold font-grotesk transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
               <path d="M8 2v12M2 8h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>

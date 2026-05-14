@@ -114,16 +114,22 @@ const CalendarWeekView = ({ currentDate, getPostsForDate, onSlotClick, onPostCli
   const days = getWeekDays(currentDate);
 
   return (
-    <div className="flex border border-edge rounded-xl overflow-hidden mx-6 my-4 bg-white" style={{ minHeight: "calc(100vh - 180px)" }}>
-      {days.map((day) => (
-        <DayColumn
-          key={formatDateKey(day)}
-          date={day}
-          posts={getPostsForDate(day)}
-          onSlotClick={onSlotClick}
-          onPostClick={onPostClick}
-        />
-      ))}
+    /* Wrapper scrollable horizontalement sur mobile */
+    <div className="overflow-x-auto mx-4 sm:mx-6 my-4">
+      <div
+        className="flex border border-edge rounded-xl overflow-hidden bg-white"
+        style={{ minHeight: "calc(100vh - 180px)", minWidth: "560px" }}
+      >
+        {days.map((day) => (
+          <DayColumn
+            key={formatDateKey(day)}
+            date={day}
+            posts={getPostsForDate(day)}
+            onSlotClick={onSlotClick}
+            onPostClick={onPostClick}
+          />
+        ))}
+      </div>
     </div>
   );
 };

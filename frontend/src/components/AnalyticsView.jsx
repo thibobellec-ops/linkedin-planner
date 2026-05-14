@@ -185,10 +185,10 @@ const AnalyticsView = () => {
   // ─────────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="px-6 py-4 max-w-7xl mx-auto">
+    <div className="px-4 sm:px-6 py-4 max-w-7xl mx-auto">
 
       {/* ── Barre d'outils ─────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between mb-6 sticky top-[60px] py-4 bg-white/80 backdrop-blur-sm z-40 -mx-6 px-6 border-b border-edge">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-6 sticky top-[60px] py-3 bg-white/80 backdrop-blur-sm z-40 -mx-4 sm:-mx-6 px-4 sm:px-6 border-b border-edge">
         <div>
           <h1 className="font-fraunces text-lg font-bold text-ink">Analytics</h1>
           <p className="text-xs font-grotesk text-ink-muted mt-0.5">
@@ -238,7 +238,7 @@ const AnalyticsView = () => {
       )}
 
       {/* ── KPI cards ───────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
         <KpiCard
           label="Posts publiés"
           value={summary.published_posts}
@@ -290,34 +290,39 @@ const AnalyticsView = () => {
               Aucun post sur cette période
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={Math.max(280, chartData.length * 36)}>
-              <BarChart
-                data={chartData}
-                layout="vertical"
-                margin={{ top: 0, right: 20, left: 0, bottom: 0 }}
-                barCategoryGap="20%"
-              >
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E2DC" />
-                <XAxis type="number" tick={{ fontSize: 11, fontFamily: "Space Grotesk", fill: "#A8A29E" }} axisLine={false} tickLine={false} />
-                <YAxis
-                  type="category"
-                  dataKey="name"
-                  width={180}
-                  tick={{ fontSize: 11, fontFamily: "Space Grotesk", fill: "#57534E" }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip content={<CustomTooltip />} cursor={{ fill: "#F5F2EE" }} />
-                <Legend
-                  iconType="circle"
-                  iconSize={8}
-                  wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk", paddingTop: 12 }}
-                />
-                <Bar dataKey="likes" name="Likes" fill="#2563EB" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="comments" name="Commentaires" fill="#60A5FA" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="reposts" name="Reposts" fill="#1D4ED8" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            /* Scrollable horizontalement sur mobile */
+            <div className="overflow-x-auto -mx-5">
+              <div style={{ minWidth: Math.max(380, chartData.length > 5 ? 480 : 380) }} className="px-5">
+                <ResponsiveContainer width="100%" height={Math.max(280, chartData.length * 36)}>
+                  <BarChart
+                    data={chartData}
+                    layout="vertical"
+                    margin={{ top: 0, right: 20, left: 0, bottom: 0 }}
+                    barCategoryGap="20%"
+                  >
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E2DC" />
+                    <XAxis type="number" tick={{ fontSize: 11, fontFamily: "Space Grotesk", fill: "#A8A29E" }} axisLine={false} tickLine={false} />
+                    <YAxis
+                      type="category"
+                      dataKey="name"
+                      width={140}
+                      tick={{ fontSize: 11, fontFamily: "Space Grotesk", fill: "#57534E" }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <Tooltip content={<CustomTooltip />} cursor={{ fill: "#F5F2EE" }} />
+                    <Legend
+                      iconType="circle"
+                      iconSize={8}
+                      wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk", paddingTop: 12 }}
+                    />
+                    <Bar dataKey="likes" name="Likes" fill="#2563EB" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="comments" name="Commentaires" fill="#60A5FA" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="reposts" name="Reposts" fill="#1D4ED8" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           )}
         </div>
 
