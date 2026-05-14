@@ -155,7 +155,8 @@ const AnalyticsView = () => {
     );
   }
 
-  const { summary } = data;
+  const summary = data?.summary ?? {};
+  const timeline = Array.isArray(data?.timeline) ? data.timeline : [];
 
   // ─────────────────────────────────────────────────────────────────────────
 
