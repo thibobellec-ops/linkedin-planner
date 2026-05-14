@@ -42,7 +42,8 @@ const PostCard = ({ post, onEdit, onDeleted }) => {
     if (!window.confirm(`Supprimer "${post.title}" ?`)) return;
     setDeleting(true);
     try {
-      const API = process.env.REACT_APP_API_URL || "http://localhost:8000";
+      const API = process.env.REACT_APP_API_URL
+        || (process.env.NODE_ENV === "production" ? "/_/backend" : "http://localhost:8000");
       await fetch(`${API}/posts/${post.id}`, { method: "DELETE" });
       onDeleted(post.id);
     } catch {

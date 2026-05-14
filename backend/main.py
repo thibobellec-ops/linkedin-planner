@@ -14,17 +14,12 @@ import database
 
 app = FastAPI(title="LinkedIn Post Manager API", version="1.0.0")
 
-# ─── CORS — localhost en dev, URL Vercel en prod ──────────────────────────────
-
-_allowed_origins = ["http://localhost:3000"]
-_frontend_url = os.environ.get("FRONTEND_URL", "")
-if _frontend_url:
-    _allowed_origins.append(_frontend_url)
+# ─── CORS — permissif en prod (même domaine Vercel) ──────────────────────────
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_allowed_origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
