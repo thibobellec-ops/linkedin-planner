@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 import asyncio
 import os
 import re
+import traceback
 import models
 import database
 
@@ -139,12 +140,17 @@ def get_posts(db: Session = Depends(database.get_db)):
 
 @app.post("/posts", response_model=PostResponse, status_code=201)
 def create_post(post: PostCreate, db: Session = Depends(database.get_db)):
-    now     = datetime.utcnow().isoformat()
-    db_post = models.Post(**post.model_dump(), created_at=now, updated_at=now)
-    db.add(db_post)
-    db.commit()
-    db.refresh(db_post)
-    return db_post
+    try:
+        now     = datetime.utcnow().isoformat()
+        db_post = models.Post(**post.model_dump(), created_at=now, updated_at=now)
+        db.add(db_post)
+        db.commit()
+        db.refresh(db_post)
+        return db_post
+    except Exception as e:
+        db.rollback()
+        print(f"[ERROR] create_post: {e}\n{traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.put("/posts/{post_id}", response_model=PostResponse)
 def update_post(post_id: int, post: PostUpdate, db: Session = Depends(database.get_db)):
