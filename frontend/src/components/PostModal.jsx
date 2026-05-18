@@ -125,8 +125,9 @@ const PostModal = ({ isOpen, onClose, post, defaultStatus = "idea", defaultDate 
     try {
       const saved = post ? await updatePost(post.id, payload) : await createPost(payload);
       onSave(saved);
-    } catch {
-      setError("Erreur lors de la sauvegarde. Vérifiez que le backend est lancé.");
+    } catch (err) {
+      const detail = err?.response?.data?.detail || err?.response?.statusText || err?.message || "inconnue";
+      setError(`Erreur (${err?.response?.status ?? "réseau"}) : ${detail}`);
     } finally {
       setSaving(false);
     }
